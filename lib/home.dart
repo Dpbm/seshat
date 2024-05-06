@@ -10,6 +10,9 @@ class Home extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height - heightMarginTop;
     final double width = MediaQuery.of(context).size.width;
 
+    const double topBarSize = 120;
+    final double bodySize = height - topBarSize;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
@@ -24,7 +27,7 @@ class Home extends StatelessWidget {
         child: Column(
           children: [
             Container(
-                height: 120,
+                height: topBarSize,
                 color: Theme.of(context).colorScheme.primary,
                 child: Container(
                     margin: const EdgeInsets.fromLTRB(26, 10, 26, 10),
@@ -38,10 +41,26 @@ class Home extends StatelessWidget {
                             style:
                                 TextStyle(fontSize: 32, fontFamily: 'Roboto'),
                           ),
-                          IconButton(onPressed: () => {}, icon: search())
+                          IconButton(
+                              onPressed: () => {/*TODO add to search notes*/},
+                              icon: search())
                         ],
                       ),
-                    )))
+                    ))),
+            Container(
+                color: Theme.of(context).colorScheme.primary,
+                height: bodySize,
+                width: width,
+                padding: const EdgeInsets.fromLTRB(36, 16, 36, 16),
+                child: Align(
+                  //Change this, to check if the user has any notes
+                  alignment: Alignment.center,
+                  child: Text("You don't have any notes yet!",
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontFamily: 'Roboto',
+                          color: Theme.of(context).colorScheme.shadow)),
+                )),
           ],
         ),
       ),

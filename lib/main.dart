@@ -16,10 +16,10 @@ class Wrapper extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 242, 220, 187),
-          primary: const Color.fromARGB(255, 242, 220, 187),
-          secondary: const Color.fromARGB(255, 54, 78, 95),
-        ),
+            seedColor: const Color.fromARGB(255, 242, 220, 187),
+            primary: const Color.fromARGB(255, 242, 220, 187),
+            secondary: const Color.fromARGB(255, 54, 78, 95),
+            shadow: const Color.fromARGB(153, 0, 0, 0)),
       ),
       color: Theme.of(context).primaryColor,
       home: const Home(),
