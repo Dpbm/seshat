@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:seshat/utils/icons.dart';
 
 class Home extends StatelessWidget {
@@ -10,7 +11,7 @@ class Home extends StatelessWidget {
     final double height = MediaQuery.of(context).size.height - heightMarginTop;
     final double width = MediaQuery.of(context).size.width;
 
-    const double topBarSize = 120;
+    const double topBarSize = 70;
     final double bodySize = height - topBarSize;
 
     return Scaffold(
@@ -63,6 +64,17 @@ class Home extends StatelessWidget {
                 )),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {/*TODO: go to create note*/},
+        tooltip: 'Create Note',
+        mini: false,
+        shape: CircleBorder(
+          side: BorderSide(
+              width: 80, color: Theme.of(context).colorScheme.secondary),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        child: plus(),
       ),
     );
   }
