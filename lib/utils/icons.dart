@@ -22,3 +22,12 @@ Widget plus() {
     height: 36,
   );
 }
+
+Widget back() {
+  return SvgPicture.asset(
+    buildPath('back'),
+    semanticsLabel: 'Back',
+    width: 32,
+    height: 32,
+  );
+}

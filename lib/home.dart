@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seshat/utils/icons.dart';
+import 'package:seshat/addNote.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -65,7 +66,18 @@ class Home extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {/*TODO: go to create note*/},
+        onPressed: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AddNote(
+                      width: width,
+                      height: height,
+                      topBarSize: topBarSize,
+                      bodySize: bodySize,
+                    )),
+          )
+        },
         tooltip: 'Create Note',
         mini: false,
         shape: CircleBorder(
