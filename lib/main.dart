@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:seshat/home.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const Wrapper());
 }
 
