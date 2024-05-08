@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seshat/models/note.dart';
 import 'package:seshat/utils/icons.dart';
 import 'package:seshat/db/db.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddNote extends StatefulWidget {
   const AddNote({super.key, required this.width, required this.height});
@@ -29,7 +30,20 @@ class _AddNotePage extends State<AddNote> {
   }
 
   Future<void> addNote() async {
-    await insertNote(Note(title: title, text: text));
+    if (text.isEmpty && title == 'Untitled') return;
+
+    try {
+      await insertNote(Note(title: title, text: text));
+    } catch (error) {
+      Fluttertoast.showToast(
+          msg: "Error on Insert Note",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0);
+    }
   }
 
   @override
@@ -65,7 +79,7 @@ class _AddNotePage extends State<AddNote> {
                         child: Align(
                             alignment: Alignment.bottomLeft,
                             child: IconButton(
-                              onPressed: () =>
+                              onPressed: () async =>
                                   {addNote(), Navigator.pop(context)},
                               icon: back(),
                             )),
