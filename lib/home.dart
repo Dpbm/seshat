@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seshat/utils/icons.dart';
-import 'package:seshat/addNote.dart';
+import 'package:seshat/add_note.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -31,7 +31,7 @@ class Home extends StatelessWidget {
                 height: topBarSize,
                 color: Theme.of(context).colorScheme.primary,
                 child: Container(
-                    margin: const EdgeInsets.fromLTRB(26, 10, 26, 10),
+                    padding: const EdgeInsets.fromLTRB(26, 10, 26, 10),
                     child: Align(
                       alignment: Alignment.bottomLeft,
                       child: Row(
@@ -73,8 +73,6 @@ class Home extends StatelessWidget {
                 builder: (context) => AddNote(
                       width: width,
                       height: height,
-                      topBarSize: topBarSize,
-                      bodySize: bodySize,
                     )),
           )
         },

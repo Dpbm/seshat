@@ -27,7 +27,7 @@ Widget back() {
   return SvgPicture.asset(
     buildPath('back'),
     semanticsLabel: 'Back',
-    width: 32,
-    height: 32,
+    width: 36,
+    height: 36,
   );
 }
