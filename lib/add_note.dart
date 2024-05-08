@@ -1,15 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:seshat/models/note.dart';
 import 'package:seshat/utils/icons.dart';
+import 'package:seshat/db/db.dart';
 
-class AddNote extends StatelessWidget {
+class AddNote extends StatefulWidget {
   const AddNote({super.key, required this.width, required this.height});
-
   final double width;
   final double height;
 
   @override
+  State<AddNote> createState() => _AddNotePage();
+}
+
+class _AddNotePage extends State<AddNote> {
+  String text = '';
+  String title = 'Untitled';
+
+  void _updateText(String newText) {
+    setState(() {
+      text = newText;
+    });
+  }
+
+  void _updateTitle(String newTitle) {
+    setState(() {
+      title = newTitle;
+    });
+  }
+
+  Future<void> addNote() async {
+    await insertNote(Note(title: title, text: text));
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final double height = widget.height;
+    final double width = widget.width;
     const double topBarSize = 120.0;
     final double bodySize = height - topBarSize;
 
@@ -39,7 +65,8 @@ class AddNote extends StatelessWidget {
                         child: Align(
                             alignment: Alignment.bottomLeft,
                             child: IconButton(
-                              onPressed: () => {Navigator.pop(context)},
+                              onPressed: () =>
+                                  {addNote(), Navigator.pop(context)},
                               icon: back(),
                             )),
                       ),
@@ -51,7 +78,7 @@ class AddNote extends StatelessWidget {
                               autocorrect: true,
                               maxLength: 20,
                               keyboardType: TextInputType.text,
-                              onChanged: (value) => {/*TODO:Save the value*/},
+                              onChanged: (value) => {_updateTitle(value)},
                               cursorColor:
                                   Theme.of(context).colorScheme.secondary,
                               textAlign: TextAlign.center,
@@ -90,7 +117,7 @@ class AddNote extends StatelessWidget {
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
                       maxLength: 20000,
-                      onChanged: (value) => {/*TODO:Save the value*/},
+                      onChanged: (value) => {_updateText(value)},
                       showCursor: true,
                       style:
                           const TextStyle(fontSize: 24, fontFamily: 'Roboto'),

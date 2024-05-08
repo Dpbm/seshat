@@ -6,7 +6,7 @@ Future<Database> getDB() async {
   final database = openDatabase(join(await getDatabasesPath(), 'notes.db'),
       onCreate: (db, version) {
     db.execute(
-      'CREATE TABLE notes (id INTEGER PRIMARY KEY AUTOINCREMENT, preview TEXT, text TEXT, date TEXT)',
+      'CREATE TABLE notes (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, preview TEXT, text TEXT, date TEXT, search TEXT)',
     );
   }, version: 1);
 
@@ -23,16 +23,16 @@ Future<List<Note>> searchNotes(String term) async {
   final db = await getDB();
 
   final List<Map<String, Object?>> notes =
-      await db.query('notes', where: "text LIKE ?", whereArgs: ['%$term%']);
+      await db.query('notes', where: "search LIKE ?", whereArgs: ['%$term%']);
 
   return [
     for (final {
           'id': id as int,
+          'title': title as String,
           'preview': preview as String,
           'text': text as String,
-          'date': date as String
         } in notes)
-      Note(id: id, preview: preview, text: text, date: date),
+      Note(id: id, preview: preview, text: text, title: title),
   ];
 }
 
@@ -50,11 +50,11 @@ Future<List<Note>> getNotes(int limit) async {
   return [
     for (final {
           'id': id as int,
+          'title': title as String,
           'preview': preview as String,
           'text': text as String,
-          'date': date as String
         } in notes)
-      Note(id: id, preview: preview, text: text, date: date),
+      Note(id: id, preview: preview, title: title, text: text),
   ];
 }
 

@@ -8,15 +8,11 @@ void main() async {
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
 
-  final testInsert1 = Note(
-      preview: 'aaaaa...',
-      text: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-      date: DateTime.now().toString());
+  final testInsert1 =
+      Note(title: 'ee', text: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
 
-  final testInsert2 = Note(
-      preview: 'bbbbb...',
-      text: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
-      date: DateTime.now().toString());
+  final testInsert2 =
+      Note(title: 'ee', text: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
 
   print('insert....');
   await insertNote(testInsert1);
@@ -24,6 +20,8 @@ void main() async {
 
   print('search by "a"');
   print(await searchNotes('a'));
+  print('search by title "e"');
+  print(await searchNotes('e'));
 
   print('get all....');
   print(await getNotes(10000));
@@ -34,11 +32,8 @@ void main() async {
   print('get all again!');
   print(await getNotes(1000));
 
-  final noteUpdates = Note(
-      id: 2,
-      preview: 'cccccc...',
-      text: 'ccccccccccccccccccccccccc',
-      date: DateTime.now().toString());
+  final noteUpdates =
+      Note(id: 2, title: 'ee', text: 'ccccccccccccccccccccccccc');
 
   print('update note!');
   await updateNote(noteUpdates);
