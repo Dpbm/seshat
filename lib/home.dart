@@ -97,6 +97,7 @@ class Home extends StatelessWidget {
                         }
 
                         return Wrap(
+                          //TODO: add a mosaic list view
                           spacing: 20.0,
                           runSpacing: 12.0,
                           crossAxisAlignment: WrapCrossAlignment.start,
