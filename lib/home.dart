@@ -3,6 +3,7 @@ import 'package:seshat/db/db.dart';
 import 'package:seshat/utils/icons.dart';
 import 'package:seshat/add_note.dart';
 import 'package:seshat/widgets/note.dart';
+import 'package:seshat/search.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key, required this.height, required this.width});
@@ -43,7 +44,16 @@ class Home extends StatelessWidget {
                                 TextStyle(fontSize: 32, fontFamily: 'Roboto'),
                           ),
                           IconButton(
-                              onPressed: () => {/*TODO add to search notes*/},
+                              onPressed: () => {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Search(
+                                                width: width,
+                                                height: height,
+                                              )),
+                                    )
+                                  },
                               icon: search())
                         ],
                       ),
