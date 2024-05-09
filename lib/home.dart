@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:seshat/db/db.dart';
 import 'package:seshat/utils/icons.dart';
 import 'package:seshat/add_note.dart';
+import 'package:seshat/widgets/note.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key, required this.height, required this.width});
@@ -51,14 +53,46 @@ class Home extends StatelessWidget {
                 height: bodySize,
                 width: width,
                 padding: const EdgeInsets.fromLTRB(36, 16, 36, 16),
-                child: Align(
-                  //Change this, to check if the user has any notes
-                  alignment: Alignment.center,
-                  child: Text("You don't have any notes yet!",
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontFamily: 'Roboto',
-                          color: Theme.of(context).colorScheme.shadow)),
+                child: SingleChildScrollView(
+                  child: FutureBuilder(
+                      future: getNotes(1000), //TODO: add infinite scroll
+                      builder: (context, snapshot) {
+                        var data = snapshot.data;
+
+                        if (snapshot.hasError) {
+                          return Container(
+                              alignment: Alignment.center,
+                              child: Text("Failed on get your notes!!!",
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      fontFamily: 'Roboto',
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .shadow)));
+                        } else if (!snapshot.hasData || data == null) {
+                          return Container(
+                              alignment: Alignment.center,
+                              child: Text("You don't have any notes yet!",
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      fontFamily: 'Roboto',
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .shadow)));
+                        }
+
+                        List<Widget> children = [];
+                        for (final noteData in data) {
+                          children.add(note(noteData));
+                        }
+
+                        return Wrap(
+                          spacing: 20.0,
+                          runSpacing: 12.0,
+                          crossAxisAlignment: WrapCrossAlignment.start,
+                          children: children,
+                        );
+                      }),
                 )),
           ],
         ),

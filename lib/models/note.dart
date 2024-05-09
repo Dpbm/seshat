@@ -10,7 +10,7 @@ class Note {
     return {
       'id': id,
       'title': title,
-      'preview': text.length < 20 ? text : (text.substring(20) + '...'),
+      'preview': text.length < 40 ? text : (text.substring(0, 40) + '...'),
       'text': text,
       'date': DateTime.now().toString(),
       'search': title + ' ' + text
