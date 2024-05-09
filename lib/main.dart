@@ -3,16 +3,18 @@ import 'package:seshat/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   runApp(const Wrapper());
 }
 
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final double heightMarginTop = MediaQuery.of(context).padding.top;
+    final double height = MediaQuery.of(context).size.height - heightMarginTop;
+    final double width = MediaQuery.of(context).size.width;
+
     return MaterialApp(
       title: 'Seshat',
       debugShowCheckedModeBanner: false,
@@ -24,7 +26,7 @@ class Wrapper extends StatelessWidget {
             shadow: const Color.fromARGB(153, 0, 0, 0)),
       ),
       color: Theme.of(context).primaryColor,
-      home: const Home(),
+      home: Home(width: width, height: height),
     );
   }
 }

@@ -15,7 +15,6 @@ Future<Database> getDB() async {
 
 Future<void> insertNote(Note note) async {
   final db = await getDB();
-  // TODO: get the error on screen
   db.insert('notes', note.toMap(), conflictAlgorithm: ConflictAlgorithm.fail);
 }
 

@@ -3,14 +3,12 @@ import 'package:seshat/utils/icons.dart';
 import 'package:seshat/add_note.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  const Home({super.key, required this.height, required this.width});
+  final double height;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
-    final double heightMarginTop = MediaQuery.of(context).padding.top;
-    final double height = MediaQuery.of(context).size.height - heightMarginTop;
-    final double width = MediaQuery.of(context).size.width;
-
     const double topBarSize = 70;
     final double bodySize = height - topBarSize;
 
