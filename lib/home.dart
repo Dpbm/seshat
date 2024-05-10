@@ -91,17 +91,27 @@ class Home extends StatelessWidget {
                                           .shadow)));
                         }
 
-                        List<Widget> children = [];
+                        List<Widget> childrenLeftColumn = [];
+                        List<Widget> childrenRightColumn = [];
+                        int i = 0;
                         for (final noteData in data) {
-                          children.add(note(noteData));
+                          if (i % 2 == 0) {
+                            childrenLeftColumn.add(note(noteData));
+                          } else {
+                            childrenRightColumn.add(note(noteData));
+                          }
+                          i++;
                         }
 
-                        return Wrap(
-                          //TODO: add a mosaic list view
-                          spacing: 20.0,
-                          runSpacing: 12.0,
-                          crossAxisAlignment: WrapCrossAlignment.start,
-                          children: children,
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              children: childrenLeftColumn,
+                            ),
+                            Column(children: childrenRightColumn)
+                          ],
                         );
                       }),
                 )),

@@ -6,6 +6,7 @@ Widget note(Note data) {
       onTap: () => {/**TODO: pass the data to the edit screen */},
       child: Container(
           width: 150,
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 10.0),
           alignment: Alignment.bottomLeft,
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
           decoration: BoxDecoration(
