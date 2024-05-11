@@ -14,6 +14,15 @@ Widget search() {
   );
 }
 
+Widget searchPrefix() {
+  return SvgPicture.asset(
+    buildPath('search_prefix'),
+    semanticsLabel: 'Search',
+    width: 12,
+    height: 12,
+  );
+}
+
 Widget plus() {
   return SvgPicture.asset(
     buildPath('plus'),

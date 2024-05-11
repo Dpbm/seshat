@@ -36,7 +36,7 @@ class _AddNotePage extends State<AddNote> {
       await insertNote(Note(title: title, text: text));
     } catch (error) {
       Fluttertoast.showToast(
-          msg: "Error on Insert Note",
+          msg: "Error on Save Note",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -52,6 +52,8 @@ class _AddNotePage extends State<AddNote> {
     final double width = widget.width;
     const double topBarSize = 120.0;
     final double bodySize = height - topBarSize;
+
+    final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -86,13 +88,16 @@ class _AddNotePage extends State<AddNote> {
                       ),
                       SizedBox(
                         width: width,
-                        child: Align(
+                        child: Container(
                             alignment: Alignment.bottomLeft,
                             child: TextField(
                               autocorrect: true,
                               maxLength: 20,
                               keyboardType: TextInputType.text,
                               onChanged: (value) => {_updateTitle(value)},
+                              onEditingComplete: () async => {addNote()},
+                              onTapOutside: (event) async =>
+                                  {addNote(), FocusScope.of(context).unfocus()},
                               cursorColor:
                                   Theme.of(context).colorScheme.secondary,
                               textAlign: TextAlign.center,
@@ -118,20 +123,23 @@ class _AddNotePage extends State<AddNote> {
                 )),
             Container(
                 color: Theme.of(context).colorScheme.primary,
-                height: bodySize,
+                height:
+                    bodySize - (keyboardHeight != 0 ? keyboardHeight - 10 : 0),
                 width: width,
                 padding: const EdgeInsets.fromLTRB(36, 16, 36, 16),
-                child: Align(
+                child: Container(
                   alignment: Alignment.topLeft,
-                  //TODO: set the cursor to be always above the keyboard
                   child: TextField(
                       autocorrect: true,
                       autofocus: true,
                       cursorColor: Theme.of(context).colorScheme.secondary,
                       keyboardType: TextInputType.multiline,
+                      textAlign: TextAlign.start,
                       maxLines: null,
                       maxLength: 20000,
                       onChanged: (value) => {_updateText(value)},
+                      onTapOutside: (event) async =>
+                          {addNote(), FocusScope.of(context).unfocus()},
                       showCursor: true,
                       style:
                           const TextStyle(fontSize: 24, fontFamily: 'Roboto'),
