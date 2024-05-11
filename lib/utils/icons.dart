@@ -9,8 +9,8 @@ Widget search() {
   return SvgPicture.asset(
     buildPath('search'),
     semanticsLabel: 'Search',
-    width: 36,
-    height: 36,
+    width: 32,
+    height: 32,
   );
 }
 
@@ -27,8 +27,8 @@ Widget plus() {
   return SvgPicture.asset(
     buildPath('plus'),
     semanticsLabel: 'Add',
-    width: 36,
-    height: 36,
+    width: 32,
+    height: 32,
   );
 }
 
@@ -36,7 +36,16 @@ Widget back() {
   return SvgPicture.asset(
     buildPath('back'),
     semanticsLabel: 'Back',
-    width: 36,
-    height: 36,
+    width: 32,
+    height: 32,
+  );
+}
+
+Widget trash() {
+  return SvgPicture.asset(
+    buildPath('trash'),
+    semanticsLabel: 'Delete',
+    width: 32,
+    height: 32,
   );
 }

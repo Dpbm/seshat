@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:seshat/models/note.dart';
+import 'package:seshat/note_page.dart';
 
-Widget note(Note data) {
+Widget note(Note data, BuildContext context, double width, double height) {
   return GestureDetector(
-      onTap: () => {/**TODO: pass the data to the edit screen */},
+      onTap: () => {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        NotePage(width: width, height: height, note: data)))
+          },
       child: Container(
           width: 150,
           margin: const EdgeInsets.fromLTRB(0, 0, 0, 10.0),

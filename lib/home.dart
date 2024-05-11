@@ -96,9 +96,11 @@ class Home extends StatelessWidget {
                         int i = 0;
                         for (final noteData in data) {
                           if (i % 2 == 0) {
-                            childrenLeftColumn.add(note(noteData));
+                            childrenLeftColumn
+                                .add(note(noteData, context, width, height));
                           } else {
-                            childrenRightColumn.add(note(noteData));
+                            childrenRightColumn
+                                .add(note(noteData, context, width, height));
                           }
                           i++;
                         }
