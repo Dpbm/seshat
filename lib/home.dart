@@ -6,13 +6,51 @@ import 'package:seshat/widgets/note.dart';
 import 'package:seshat/search.dart';
 import 'package:seshat/note_page.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key, required this.height, required this.width});
   final double height;
   final double width;
 
   @override
+  State<Home> createState() => _HomePage();
+}
+
+class _HomePage extends State<Home> {
+  final ScrollController _scrollController = ScrollController();
+  int _totalNotes = 0;
+  int _loadNotes = 10;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _updateTotalNotes();
+    });
+    _scrollController.addListener(_updateNotesLimit);
+  }
+
+  Future<void> _updateTotalNotes() async {
+    int totalNotes = await getTotalNotes();
+    setState(() {
+      _totalNotes = totalNotes;
+    });
+  }
+
+  void _updateNotesLimit() {
+    if (_scrollController.offset ==
+            _scrollController.position.maxScrollExtent &&
+        _loadNotes < _totalNotes) {
+      setState(() {
+        _loadNotes += 10;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final double width = widget.width;
+    final double height = widget.height;
     const double topBarSize = 70;
     final double bodySize = height - topBarSize;
 
@@ -123,9 +161,9 @@ class Home extends StatelessWidget {
                 width: width,
                 padding: const EdgeInsets.fromLTRB(36, 16, 36, 16),
                 child: SingleChildScrollView(
+                  controller: _scrollController,
                   child: FutureBuilder(
-                      future: getNotes(1000), //TODO: add infinite scroll
-                      builder: cardsList),
+                      future: getNotes(_loadNotes), builder: cardsList),
                 )),
           ],
         ),

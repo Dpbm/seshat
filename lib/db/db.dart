@@ -62,3 +62,9 @@ Future<void> updateNote(Note note) async {
   // TODO: get the error on screen
   db.update('notes', note.toMap(), where: 'id = ?', whereArgs: [note.id]);
 }
+
+Future<int> getTotalNotes() async {
+  final db = await getDB();
+  var rows = await db.rawQuery('SELECT COUNT(id) FROM notes');
+  return Sqflite.firstIntValue(rows) ?? 0;
+}
