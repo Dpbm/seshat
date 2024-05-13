@@ -41,7 +41,7 @@ class _AddNotePage extends State<AddNote> {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.white,
-          textColor: Colors.black,
+          textColor: Colors.red,
           fontSize: 16.0);
     }
   }
