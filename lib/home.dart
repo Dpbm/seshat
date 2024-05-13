@@ -4,6 +4,7 @@ import 'package:seshat/utils/icons.dart';
 import 'package:seshat/add_note.dart';
 import 'package:seshat/widgets/note.dart';
 import 'package:seshat/search.dart';
+import 'package:seshat/note_page.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key, required this.height, required this.width});
@@ -95,12 +96,23 @@ class Home extends StatelessWidget {
                         List<Widget> childrenRightColumn = [];
                         int i = 0;
                         for (final noteData in data) {
+                          Widget card = GestureDetector(
+                            onTap: () => {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => NotePage(
+                                          width: width,
+                                          height: height,
+                                          note: noteData)))
+                            },
+                            child: note(noteData),
+                          );
+
                           if (i % 2 == 0) {
-                            childrenLeftColumn
-                                .add(note(noteData, context, width, height));
+                            childrenLeftColumn.add(card);
                           } else {
-                            childrenRightColumn
-                                .add(note(noteData, context, width, height));
+                            childrenRightColumn.add(card);
                           }
                           i++;
                         }
