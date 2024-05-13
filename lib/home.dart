@@ -16,6 +16,64 @@ class Home extends StatelessWidget {
     const double topBarSize = 70;
     final double bodySize = height - topBarSize;
 
+    Widget cardsList(context, snapshot) {
+      var data = snapshot.data;
+
+      if (snapshot.hasError) {
+        return Container(
+            alignment: Alignment.center,
+            child: Text("Failed on get your notes!!!",
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'Roboto',
+                    color: Theme.of(context).colorScheme.shadow)));
+      }
+
+      if (!snapshot.hasData || data == null) {
+        return Container(
+            alignment: Alignment.center,
+            child: Text("You don't have any notes yet!",
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'Roboto',
+                    color: Theme.of(context).colorScheme.shadow)));
+      }
+
+      List<Widget> childrenLeftColumn = [];
+      List<Widget> childrenRightColumn = [];
+      int i = 0;
+      for (final noteData in data) {
+        Widget card = GestureDetector(
+          onTap: () => {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        NotePage(width: width, height: height, note: noteData)))
+          },
+          child: note(noteData),
+        );
+
+        if (i % 2 == 0) {
+          childrenLeftColumn.add(card);
+        } else {
+          childrenRightColumn.add(card);
+        }
+        i++;
+      }
+
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            children: childrenLeftColumn,
+          ),
+          Column(children: childrenRightColumn)
+        ],
+      );
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
@@ -67,67 +125,7 @@ class Home extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: FutureBuilder(
                       future: getNotes(1000), //TODO: add infinite scroll
-                      builder: (context, snapshot) {
-                        var data = snapshot.data;
-
-                        if (snapshot.hasError) {
-                          return Container(
-                              alignment: Alignment.center,
-                              child: Text("Failed on get your notes!!!",
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: 'Roboto',
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .shadow)));
-                        } else if (!snapshot.hasData || data == null) {
-                          return Container(
-                              alignment: Alignment.center,
-                              child: Text("You don't have any notes yet!",
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontFamily: 'Roboto',
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .shadow)));
-                        }
-
-                        List<Widget> childrenLeftColumn = [];
-                        List<Widget> childrenRightColumn = [];
-                        int i = 0;
-                        for (final noteData in data) {
-                          Widget card = GestureDetector(
-                            onTap: () => {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => NotePage(
-                                          width: width,
-                                          height: height,
-                                          note: noteData)))
-                            },
-                            child: note(noteData),
-                          );
-
-                          if (i % 2 == 0) {
-                            childrenLeftColumn.add(card);
-                          } else {
-                            childrenRightColumn.add(card);
-                          }
-                          i++;
-                        }
-
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
-                              children: childrenLeftColumn,
-                            ),
-                            Column(children: childrenRightColumn)
-                          ],
-                        );
-                      }),
+                      builder: cardsList),
                 )),
           ],
         ),
