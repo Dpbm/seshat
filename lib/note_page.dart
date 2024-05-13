@@ -19,13 +19,16 @@ class NotePage extends StatefulWidget {
 }
 
 class _UpdateNotePage extends State<NotePage> {
-  final textController = TextEditingController();
-  final titleController = TextEditingController();
+  final _textController = TextEditingController();
+  final _titleController = TextEditingController();
+
+  var _id = null;
+  bool _deleted = false;
 
   @override
   void dispose() {
-    textController.dispose();
-    titleController.dispose();
+    _textController.dispose();
+    _titleController.dispose();
     super.dispose();
   }
 
@@ -33,17 +36,16 @@ class _UpdateNotePage extends State<NotePage> {
   void initState() {
     super.initState();
 
-    textController.text = widget.note.text;
-    titleController.text = widget.note.title;
-    //textController.addListener(_printLatestValue);
+    _textController.text = widget.note.text;
+    _titleController.text = widget.note.title;
+    setState(() {
+      _id = widget.note.id;
+    });
   }
 
   Future<void> _deleteNote() async {
-    var id = widget.note.id;
-    if (id == null) return;
-
     try {
-      await deleteNote(id);
+      await deleteNote(_id);
       Fluttertoast.showToast(
           msg: "Deleting note...",
           toastLength: Toast.LENGTH_SHORT,
@@ -52,6 +54,9 @@ class _UpdateNotePage extends State<NotePage> {
           backgroundColor: Colors.white,
           textColor: Colors.black,
           fontSize: 16.0);
+      setState(() {
+        _deleted = true;
+      });
     } catch (error) {
       Fluttertoast.showToast(
           msg: "Failed on delete Note",
@@ -59,7 +64,25 @@ class _UpdateNotePage extends State<NotePage> {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.white,
-          textColor: Colors.black,
+          textColor: Colors.red,
+          fontSize: 16.0);
+    }
+  }
+
+  Future<void> _updateNote() async {
+    String title = _titleController.text;
+    String text = _textController.text;
+
+    try {
+      await updateNote(Note(title: title, text: text, id: _id));
+    } catch (error) {
+      Fluttertoast.showToast(
+          msg: "Failed on update Note",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.red,
           fontSize: 16.0);
     }
   }
@@ -71,6 +94,10 @@ class _UpdateNotePage extends State<NotePage> {
     const double topBarSize = 120;
     final double bodySize = height - topBarSize;
     final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+
+    if (_deleted || _id == null) {
+      Navigator.pop(context);
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -99,8 +126,7 @@ class _UpdateNotePage extends State<NotePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               IconButton(
-                                onPressed: () async =>
-                                    {/* addNote(),  */ Navigator.pop(context)},
+                                onPressed: () => {Navigator.pop(context)},
                                 icon: back(),
                               ),
                               IconButton(
@@ -116,12 +142,13 @@ class _UpdateNotePage extends State<NotePage> {
                             child: TextField(
                               autocorrect: true,
                               maxLength: 20,
-                              controller: titleController,
+                              controller: _titleController,
                               keyboardType: TextInputType.text,
-                              //onChanged: (value) => {_updateTitle(value)},
-                              //onEditingComplete: () async => {addNote()},
-                              //onTapOutside: (event) async =>
-                              //    {addNote(), FocusScope.of(context).unfocus()},
+                              onEditingComplete: () async => {_updateNote()},
+                              onTapOutside: (event) async => {
+                                _updateNote(),
+                                FocusScope.of(context).unfocus()
+                              },
                               cursorColor:
                                   Theme.of(context).colorScheme.secondary,
                               textAlign: TextAlign.center,
@@ -155,15 +182,14 @@ class _UpdateNotePage extends State<NotePage> {
                   alignment: Alignment.topLeft,
                   child: TextField(
                       autocorrect: true,
-                      controller: textController,
+                      controller: _textController,
                       cursorColor: Theme.of(context).colorScheme.secondary,
                       keyboardType: TextInputType.multiline,
                       textAlign: TextAlign.start,
                       maxLines: null,
                       maxLength: 20000,
-                      //onChanged: (value) => {_updateText(value)},
-                      //onTapOutside: (event) async =>
-                      //    {addNote(), FocusScope.of(context).unfocus()},
+                      onTapOutside: (event) async =>
+                          {_updateNote(), FocusScope.of(context).unfocus()},
                       showCursor: true,
                       style:
                           const TextStyle(fontSize: 24, fontFamily: 'Roboto'),
