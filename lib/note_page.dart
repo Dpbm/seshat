@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:seshat/db/db.dart';
 import 'package:seshat/models/note.dart';
 import 'package:seshat/utils/icons.dart';
@@ -19,8 +20,8 @@ class NotePage extends StatefulWidget {
 }
 
 class _UpdateNotePage extends State<NotePage> {
-  final _textController = TextEditingController();
-  final _titleController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
 
   var _id = null;
   bool _deleted = false;

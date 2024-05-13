@@ -14,26 +14,60 @@ class AddNote extends StatefulWidget {
 }
 
 class _AddNotePage extends State<AddNote> {
-  String text = '';
-  String title = 'Untitled';
+  final TextEditingController _textController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
 
-  void _updateText(String newText) {
-    setState(() {
-      text = newText;
+  bool _created = false;
+  var _id = null;
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _addNote(closing: true);
     });
+    super.dispose();
   }
 
-  void _updateTitle(String newTitle) {
-    setState(() {
-      title = newTitle;
-    });
-  }
+  Future<void> _addNote({bool closing = false}) async {
+    final String title = _titleController.text;
+    final String text = _textController.text;
 
-  Future<void> addNote() async {
-    if (text.isEmpty && title == 'Untitled') return;
+    print('textttttt:');
+    print(text);
+    print(text.isEmpty);
+    print(title);
+    print(title.isEmpty);
+    if (text.isEmpty && title.isEmpty && !_created) {
+      print(
+          'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC');
+      return;
+    }
+
+    if (_created && _id == null) {
+      int id = await lastInsertedId();
+      setState(() {
+        _id = id;
+      });
+    }
 
     try {
-      await insertNote(Note(title: title, text: text));
+      if (text.isEmpty && title.isEmpty && _created) {
+        print(
+            'DASKLJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKDLJASLKJDALKJDKLAJDKJLADJKLADKJLADLKJAJKLDALJKDALKJDALJKDLAJKDKJLADKLJADJKLADJKLAJKALSDJKALSDJKLA');
+
+        await deleteNote(_id);
+      } else if (!_created) {
+        print(
+            '222222222222222222222222222222222222222222222222222222222222222222222222222222222222222');
+        await insertNote(Note(title: title, text: text));
+        setState(() {
+          _created = true;
+        });
+      } else {
+        await updateNote(Note(text: text, title: title, id: _id));
+        print(
+            '33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333');
+      }
     } catch (error) {
       Fluttertoast.showToast(
           msg: "Error on Save Note",
@@ -81,8 +115,7 @@ class _AddNotePage extends State<AddNote> {
                         child: Align(
                             alignment: Alignment.bottomLeft,
                             child: IconButton(
-                              onPressed: () async =>
-                                  {addNote(), Navigator.pop(context)},
+                              onPressed: () async => {Navigator.pop(context)},
                               icon: back(),
                             )),
                       ),
@@ -94,10 +127,12 @@ class _AddNotePage extends State<AddNote> {
                               autocorrect: true,
                               maxLength: 20,
                               keyboardType: TextInputType.text,
-                              onChanged: (value) => {_updateTitle(value)},
-                              onEditingComplete: () async => {addNote()},
-                              onTapOutside: (event) async =>
-                                  {addNote(), FocusScope.of(context).unfocus()},
+                              controller: _titleController,
+                              onTapOutside: (event) async => {
+                                _addNote(),
+                                FocusScope.of(context).unfocus()
+                              },
+                              onSubmitted: (value) async => {_addNote()},
                               cursorColor:
                                   Theme.of(context).colorScheme.secondary,
                               textAlign: TextAlign.center,
@@ -107,7 +142,7 @@ class _AddNotePage extends State<AddNote> {
                                   fontFamily: 'Roboto',
                                   fontWeight: FontWeight.bold),
                               decoration: const InputDecoration(
-                                  hintText: "Untitled",
+                                  hintText: 'Untitled',
                                   contentPadding: EdgeInsets.all(0),
                                   hintMaxLines: 1,
                                   border: InputBorder.none,
@@ -137,9 +172,9 @@ class _AddNotePage extends State<AddNote> {
                       textAlign: TextAlign.start,
                       maxLines: null,
                       maxLength: 20000,
-                      onChanged: (value) => {_updateText(value)},
+                      controller: _textController,
                       onTapOutside: (event) async =>
-                          {addNote(), FocusScope.of(context).unfocus()},
+                          {_addNote(), FocusScope.of(context).unfocus()},
                       showCursor: true,
                       style:
                           const TextStyle(fontSize: 24, fontFamily: 'Roboto'),

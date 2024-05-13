@@ -68,3 +68,9 @@ Future<int> getTotalNotes() async {
   var rows = await db.rawQuery('SELECT COUNT(id) FROM notes');
   return Sqflite.firstIntValue(rows) ?? 0;
 }
+
+Future<int> lastInsertedId() async {
+  final db = await getDB();
+  var rows = await db.rawQuery('SELECT max(id) FROM notes');
+  return Sqflite.firstIntValue(rows) ?? 0;
+}
