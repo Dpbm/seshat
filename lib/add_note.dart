@@ -29,6 +29,8 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _textController.dispose();
+    _titleController.dispose();
     super.dispose();
   }
 

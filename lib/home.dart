@@ -5,6 +5,7 @@ import 'package:seshat/add_note.dart';
 import 'package:seshat/widgets/note.dart';
 import 'package:seshat/search.dart';
 import 'package:seshat/note_page.dart';
+import 'package:seshat/models/note.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.height, required this.width});
@@ -54,6 +55,15 @@ class _HomePage extends State<Home> {
     const double topBarSize = 70;
     final double bodySize = height - topBarSize;
 
+    Future<void> goToNote(Note noteData) async {
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  NotePage(width: width, height: height, note: noteData)));
+      setState(() {});
+    }
+
     Widget cardsList(context, snapshot) {
       var data = snapshot.data;
 
@@ -80,15 +90,9 @@ class _HomePage extends State<Home> {
       List<Widget> childrenLeftColumn = [];
       List<Widget> childrenRightColumn = [];
       int i = 0;
-      for (final noteData in data) {
+      for (final Note noteData in data) {
         Widget card = GestureDetector(
-          onTap: () => {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        NotePage(width: width, height: height, note: noteData)))
-          },
+          onTap: () => goToNote(noteData),
           child: note(noteData),
         );
 

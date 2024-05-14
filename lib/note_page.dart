@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:seshat/db/db.dart';
 import 'package:seshat/models/note.dart';
 import 'package:seshat/utils/icons.dart';
@@ -97,6 +96,7 @@ class _UpdateNotePage extends State<NotePage> {
     final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
     if (_deleted || _id == null) {
+      //TODO: Changing this one is a good idea
       Navigator.pop(context);
     }
 
