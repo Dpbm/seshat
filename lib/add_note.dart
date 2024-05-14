@@ -13,7 +13,7 @@ class AddNote extends StatefulWidget {
   State<AddNote> createState() => _AddNotePage();
 }
 
-class _AddNotePage extends State<AddNote> {
+class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
   final TextEditingController _textController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
 
@@ -21,25 +21,38 @@ class _AddNotePage extends State<AddNote> {
   var _id = null;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
   void dispose() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _addNote(closing: true);
-    });
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
-  Future<void> _addNote({bool closing = false}) async {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    switch (state) {
+      case AppLifecycleState.inactive:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _addNote();
+        });
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  Future<void> _addNote() async {
     final String title = _titleController.text;
     final String text = _textController.text;
 
-    print('textttttt:');
-    print(text);
-    print(text.isEmpty);
-    print(title);
-    print(title.isEmpty);
     if (text.isEmpty && title.isEmpty && !_created) {
-      print(
-          'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC');
       return;
     }
 
@@ -52,21 +65,17 @@ class _AddNotePage extends State<AddNote> {
 
     try {
       if (text.isEmpty && title.isEmpty && _created) {
-        print(
-            'DASKLJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJKDLJASLKJDALKJDKLAJDKJLADJKLADKJLADLKJAJKLDALJKDALKJDALJKDLAJKDKJLADKLJADJKLADJKLAJKALSDJKALSDJKLA');
-
         await deleteNote(_id);
+        setState(() {
+          _created = false;
+        });
       } else if (!_created) {
-        print(
-            '222222222222222222222222222222222222222222222222222222222222222222222222222222222222222');
         await insertNote(Note(title: title, text: text));
         setState(() {
           _created = true;
         });
       } else {
         await updateNote(Note(text: text, title: title, id: _id));
-        print(
-            '33333333333333333333333333333333333333333333333333333333333333333333333333333333333333333');
       }
     } catch (error) {
       Fluttertoast.showToast(
@@ -115,7 +124,8 @@ class _AddNotePage extends State<AddNote> {
                         child: Align(
                             alignment: Alignment.bottomLeft,
                             child: IconButton(
-                              onPressed: () async => {Navigator.pop(context)},
+                              onPressed: () async =>
+                                  {_addNote(), Navigator.pop(context)},
                               icon: back(),
                             )),
                       ),
@@ -128,11 +138,8 @@ class _AddNotePage extends State<AddNote> {
                               maxLength: 20,
                               keyboardType: TextInputType.text,
                               controller: _titleController,
-                              onTapOutside: (event) async => {
-                                _addNote(),
-                                FocusScope.of(context).unfocus()
-                              },
-                              onSubmitted: (value) async => {_addNote()},
+                              onTapOutside: (event) =>
+                                  {FocusScope.of(context).unfocus()},
                               cursorColor:
                                   Theme.of(context).colorScheme.secondary,
                               textAlign: TextAlign.center,
@@ -173,8 +180,8 @@ class _AddNotePage extends State<AddNote> {
                       maxLines: null,
                       maxLength: 20000,
                       controller: _textController,
-                      onTapOutside: (event) async =>
-                          {_addNote(), FocusScope.of(context).unfocus()},
+                      onTapOutside: (event) =>
+                          {FocusScope.of(context).unfocus()},
                       showCursor: true,
                       style:
                           const TextStyle(fontSize: 24, fontFamily: 'Roboto'),
