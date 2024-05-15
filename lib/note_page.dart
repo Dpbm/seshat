@@ -18,7 +18,7 @@ class NotePage extends StatefulWidget {
   State<NotePage> createState() => _UpdateNotePage();
 }
 
-class _UpdateNotePage extends State<NotePage> {
+class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
   final TextEditingController _textController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
 
@@ -29,18 +29,38 @@ class _UpdateNotePage extends State<NotePage> {
   void dispose() {
     _textController.dispose();
     _titleController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
     _textController.text = widget.note.text;
     _titleController.text = widget.note.title;
     setState(() {
       _id = widget.note.id;
     });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (_deleted) return;
+
+    switch (state) {
+      case AppLifecycleState.inactive:
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _updateNote();
+        });
+        break;
+
+      default:
+        break;
+    }
   }
 
   Future<void> _deleteNote() async {
@@ -50,7 +70,7 @@ class _UpdateNotePage extends State<NotePage> {
           msg: "Deleting note...",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 2,
+          timeInSecForIosWeb: 1,
           backgroundColor: Colors.white,
           textColor: Colors.black,
           fontSize: 16.0);
@@ -95,11 +115,6 @@ class _UpdateNotePage extends State<NotePage> {
     final double bodySize = height - topBarSize;
     final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
-    if (_deleted || _id == null) {
-      //TODO: Changing this one is a good idea
-      Navigator.pop(context);
-    }
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
@@ -127,11 +142,15 @@ class _UpdateNotePage extends State<NotePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               IconButton(
-                                onPressed: () => {Navigator.pop(context)},
+                                onPressed: () =>
+                                    {_updateNote(), Navigator.pop(context)},
                                 icon: back(),
                               ),
                               IconButton(
-                                onPressed: () async => {_deleteNote()},
+                                onPressed: () => {
+                                  _deleteNote()
+                                      .then((result) => Navigator.pop(context))
+                                },
                                 icon: trash(),
                               )
                             ]),
@@ -145,11 +164,8 @@ class _UpdateNotePage extends State<NotePage> {
                               maxLength: 20,
                               controller: _titleController,
                               keyboardType: TextInputType.text,
-                              onEditingComplete: () async => {_updateNote()},
-                              onTapOutside: (event) async => {
-                                _updateNote(),
-                                FocusScope.of(context).unfocus()
-                              },
+                              onTapOutside: (event) =>
+                                  {FocusScope.of(context).unfocus()},
                               cursorColor:
                                   Theme.of(context).colorScheme.secondary,
                               textAlign: TextAlign.center,
@@ -189,8 +205,8 @@ class _UpdateNotePage extends State<NotePage> {
                       textAlign: TextAlign.start,
                       maxLines: null,
                       maxLength: 20000,
-                      onTapOutside: (event) async =>
-                          {_updateNote(), FocusScope.of(context).unfocus()},
+                      onTapOutside: (event) =>
+                          {FocusScope.of(context).unfocus()},
                       showCursor: true,
                       style:
                           const TextStyle(fontSize: 24, fontFamily: 'Roboto'),

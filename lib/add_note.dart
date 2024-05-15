@@ -126,7 +126,7 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
                         child: Align(
                             alignment: Alignment.bottomLeft,
                             child: IconButton(
-                              onPressed: () async =>
+                              onPressed: () =>
                                   {_addNote(), Navigator.pop(context)},
                               icon: back(),
                             )),
