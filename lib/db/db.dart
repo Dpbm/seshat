@@ -44,7 +44,7 @@ Future<List<Note>> getNotes(int limit) async {
   final db = await getDB();
 
   final List<Map<String, Object?>> notes =
-      await db.query('notes', limit: limit);
+      await db.query('notes', limit: limit, orderBy: 'id DESC');
 
   return [
     for (final {
