@@ -64,6 +64,17 @@ class _HomePage extends State<Home> {
       setState(() {});
     }
 
+    Future<void> addNote() async {
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AddNote(
+                    width: width,
+                    height: height,
+                  )));
+      setState(() {});
+    }
+
     Widget cardsList(context, snapshot) {
       var data = snapshot.data;
 
@@ -173,16 +184,7 @@ class _HomePage extends State<Home> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AddNote(
-                      width: width,
-                      height: height,
-                    )),
-          )
-        },
+        onPressed: addNote,
         tooltip: 'Create Note',
         mini: false,
         shape: CircleBorder(
