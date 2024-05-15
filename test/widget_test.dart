@@ -6,11 +6,15 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'package:seshat/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    sqfliteFfiInit();
+
+    databaseFactory = databaseFactoryFfi;
     await tester.pumpWidget(const Wrapper());
   });
 }
