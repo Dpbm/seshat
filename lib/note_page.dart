@@ -84,7 +84,7 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.white,
-          textColor: Colors.red,
+          textColor: const Color.fromARGB(255, 244, 67, 54),
           fontSize: 16.0);
     }
   }

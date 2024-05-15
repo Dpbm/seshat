@@ -72,7 +72,8 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
           _created = false;
         });
       } else if (!_created) {
-        await insertNote(Note(title: title, text: text));
+        await insertNote(
+            Note(title: title.isEmpty ? 'Untitled' : title, text: text));
         setState(() {
           _created = true;
         });
@@ -86,7 +87,7 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.white,
-          textColor: Colors.red,
+          textColor: const Color.fromARGB(255, 244, 67, 54),
           fontSize: 16.0);
     }
   }

@@ -77,19 +77,24 @@ class _HomePage extends State<Home> {
 
     Widget cardsList(context, snapshot) {
       var data = snapshot.data;
+      final bool noData = !snapshot.hasData ||
+          data == null ||
+          data.toString().compareTo("[]") == 0;
 
       if (snapshot.hasError) {
         return Container(
+            height: bodySize,
             alignment: Alignment.center,
             child: Text("Failed on get your notes!!!",
                 style: TextStyle(
                     fontSize: 24,
                     fontFamily: 'Roboto',
-                    color: Theme.of(context).colorScheme.shadow)));
+                    color: Theme.of(context).colorScheme.error)));
       }
 
-      if (!snapshot.hasData || data == null) {
+      if (noData) {
         return Container(
+            height: bodySize,
             alignment: Alignment.center,
             child: Text("You don't have any notes yet!",
                 style: TextStyle(
