@@ -18,8 +18,8 @@ Widget searchPrefix() {
   return SvgPicture.asset(
     buildPath('search_prefix'),
     semanticsLabel: 'Search',
-    width: 12,
-    height: 12,
+    width: 32,
+    height: 32,
   );
 }
 

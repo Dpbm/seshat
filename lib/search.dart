@@ -49,16 +49,21 @@ class Search extends StatelessWidget {
                                       const BorderRadiusDirectional.all(
                                           Radius.circular(10))),
                               alignment: Alignment.bottomLeft,
-                              child: TextField(
-                                keyboardType: TextInputType.text,
-                                autofocus: true,
-                                onChanged: (value) => {},
-                                textAlign: TextAlign.left,
-                                showCursor: true,
-                                decoration: InputDecoration(
-                                  prefixIcon: searchPrefix(),
-                                ),
-                              )),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {}, icon: searchPrefix()),
+                                    TextField(
+                                      keyboardType: TextInputType.text,
+                                      autofocus: true,
+                                      onChanged: (value) => {},
+                                      textAlign: TextAlign.left,
+                                      showCursor: true,
+                                    )
+                                  ])),
                         ]),
                   ))
             ])));
