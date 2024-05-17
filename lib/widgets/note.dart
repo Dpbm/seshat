@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seshat/models/note.dart';
 
-Widget note(Note data) {
-  const double cardWidth = 150.0;
-
+Widget note(Note data, double cardWidth) {
   return Container(
       width: cardWidth,
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 10.0),
