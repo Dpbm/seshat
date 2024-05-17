@@ -22,6 +22,7 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
   final TextEditingController _textController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
 
+  final String _defaultTitle = "Untitled";
   var _id = null;
   bool _deleted = false;
 
@@ -92,6 +93,10 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
   Future<void> _updateNote() async {
     String title = _titleController.text;
     String text = _textController.text;
+
+    if(title.isEmpty){
+      title = _defaultTitle;
+    }
 
     try {
       await updateNote(Note(title: title, text: text, id: _id));
@@ -174,13 +179,13 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
                                   fontSize: 32,
                                   fontFamily: 'Roboto',
                                   fontWeight: FontWeight.bold),
-                              decoration: const InputDecoration(
-                                  hintText: "Untitled",
-                                  contentPadding: EdgeInsets.all(0),
+                              decoration:  InputDecoration(
+                                  hintText: _defaultTitle,
+                                  contentPadding: const EdgeInsets.all(0),
                                   hintMaxLines: 1,
                                   border: InputBorder.none,
                                   counterText: '',
-                                  hintStyle: TextStyle(
+                                  hintStyle: const TextStyle(
                                       fontSize: 32,
                                       fontFamily: 'Roboto',
                                       fontWeight: FontWeight.bold)),
