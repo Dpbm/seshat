@@ -18,6 +18,7 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
   final TextEditingController _titleController = TextEditingController();
 
   bool _created = false;
+  final String _defaultTitle = "Untitled";
   var _id = null;
 
   @override
@@ -51,10 +52,13 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
   }
 
   Future<void> _addNote() async {
-    final String title = _titleController.text;
+    String title = _titleController.text;
     final String text = _textController.text;
 
-    if (text.isEmpty && title.isEmpty && !_created) {
+    final bool emptyText = text.isEmpty;
+    final bool emptyTitle = title.isEmpty; 
+
+    if (emptyTitle && emptyText && !_created) {
       return;
     }
 
@@ -65,15 +69,20 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
       });
     }
 
+    if(emptyTitle){
+      title = _defaultTitle;
+    }
+
     try {
-      if (text.isEmpty && title.isEmpty && _created) {
+      if (emptyTitle && emptyText && _created) {
         await deleteNote(_id);
         setState(() {
           _created = false;
         });
-      } else if (!_created) {
+      } 
+      else if (!_created) {
         await insertNote(
-            Note(title: title.isEmpty ? 'Untitled' : title, text: text));
+            Note(title: title, text: text));
         setState(() {
           _created = true;
         });
@@ -151,13 +160,13 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
                                   fontSize: 32,
                                   fontFamily: 'Roboto',
                                   fontWeight: FontWeight.bold),
-                              decoration: const InputDecoration(
-                                  hintText: 'Untitled',
-                                  contentPadding: EdgeInsets.all(0),
+                              decoration: InputDecoration(
+                                  hintText: _defaultTitle,
+                                  contentPadding: const EdgeInsets.all(0),
                                   hintMaxLines: 1,
                                   border: InputBorder.none,
                                   counterText: '',
-                                  hintStyle: TextStyle(
+                                  hintStyle: const TextStyle(
                                       fontSize: 32,
                                       fontFamily: 'Roboto',
                                       fontWeight: FontWeight.bold)),

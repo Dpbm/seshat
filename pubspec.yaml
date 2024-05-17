@@ -54,10 +54,10 @@ flutter_native_splash:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  remove_alpha_ios: true
-  image_path_ios: "assets/images/logo.png"
+  remove_alpha_ios: false
+  image_path_ios: "assets/images/logo_ios.png"
   background_color_ios: "#FFFFFF"
-  image_path: "assets/images/logo.png"
+  image_path: "assets/images/logo_android.png"
   adptative_icon_background: "#FFFFFF"
   adptative_icon_foreground: "assets/images/splash_logo.png"
   web:

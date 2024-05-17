@@ -191,10 +191,10 @@ class _HomePage extends State<Home> {
       floatingActionButton: FloatingActionButton(
         onPressed: addNote,
         tooltip: 'Create Note',
-        mini: false,
+        //mini: false,
         shape: CircleBorder(
           side: BorderSide(
-              width: 80, color: Theme.of(context).colorScheme.secondary),
+              width: 10, color: Theme.of(context).colorScheme.secondary),
         ),
         backgroundColor: Theme.of(context).colorScheme.secondary,
         child: plus(),
