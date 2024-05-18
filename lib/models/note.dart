@@ -7,10 +7,11 @@ class Note {
   const Note({this.id, this.preview, required this.title, required this.text});
 
   Map<String, Object?> toMap() {
+    String textFix = text.replaceAll("\n", " ");
     return {
       'id': id,
       'title': title,
-      'preview': text.length < 40 ? text : (text.substring(0, 40) + '...'),
+      'preview': textFix.length < 40 ? textFix : (textFix.substring(0, 40) + '...'),
       'text': text,
       'date': DateTime.now().toString(),
       'search': title + ' ' + text
