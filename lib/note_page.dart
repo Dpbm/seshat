@@ -94,7 +94,7 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
     String title = _titleController.text;
     String text = _textController.text;
 
-    if(title.isEmpty){
+    if (title.isEmpty) {
       title = _defaultTitle;
     }
 
@@ -165,7 +165,6 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
                         child: Container(
                             alignment: Alignment.bottomLeft,
                             child: TextField(
-                              autocorrect: true,
                               maxLength: 20,
                               controller: _titleController,
                               keyboardType: TextInputType.text,
@@ -179,7 +178,7 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
                                   fontSize: 32,
                                   fontFamily: 'Roboto',
                                   fontWeight: FontWeight.bold),
-                              decoration:  InputDecoration(
+                              decoration: InputDecoration(
                                   hintText: _defaultTitle,
                                   contentPadding: const EdgeInsets.all(0),
                                   hintMaxLines: 1,
@@ -203,7 +202,6 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
                 child: Container(
                   alignment: Alignment.topLeft,
                   child: TextField(
-                      autocorrect: true,
                       expands: true,
                       controller: _textController,
                       cursorColor: Theme.of(context).colorScheme.secondary,

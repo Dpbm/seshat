@@ -56,7 +56,7 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
     final String text = _textController.text;
 
     final bool emptyText = text.isEmpty;
-    final bool emptyTitle = title.isEmpty; 
+    final bool emptyTitle = title.isEmpty;
 
     if (emptyTitle && emptyText && !_created) {
       return;
@@ -69,7 +69,7 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
       });
     }
 
-    if(emptyTitle){
+    if (emptyTitle) {
       title = _defaultTitle;
     }
 
@@ -79,10 +79,8 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
         setState(() {
           _created = false;
         });
-      } 
-      else if (!_created) {
-        await insertNote(
-            Note(title: title, text: text));
+      } else if (!_created) {
+        await insertNote(Note(title: title, text: text));
         setState(() {
           _created = true;
         });
@@ -146,7 +144,6 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
                         child: Container(
                             alignment: Alignment.bottomLeft,
                             child: TextField(
-                              autocorrect: true,
                               maxLength: 20,
                               keyboardType: TextInputType.text,
                               controller: _titleController,
@@ -184,7 +181,6 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
                 child: Container(
                   alignment: Alignment.topLeft,
                   child: TextField(
-                      autocorrect: true,
                       autofocus: true,
                       cursorColor: Theme.of(context).colorScheme.secondary,
                       keyboardType: TextInputType.multiline,
