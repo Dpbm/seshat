@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class Note {
   final int? id;
   final String? preview;
@@ -16,23 +18,24 @@ class Note {
 
     if (textLines.isNotEmpty) {
       int lineCounter = 0;
-      int totalExceded = 0;
 
       for (String line in textLines) {
         if (lineCounter >= maxLines) break;
-        preview += line;
-        preview += '\n';
-        lineCounter++;
 
         if (line.length > lengthPerLine) {
-          totalExceded += line.length - lengthPerLine.toInt();
+          lineCounter += ((line.length / lengthPerLine).toInt() + 1);
+        } else {
+          lineCounter++;
         }
+
+        preview += line;
+        preview += '\n';
       }
 
-      if (totalExceded > 0) {
-        preview = preview.substring(0, preview.length - totalExceded);
+      if (preview.length > maxChar) {
+        preview = preview.substring(0, maxChar);
         preview += '...';
-      } else if (textLines.length > 4) {
+      } else if (textLines.length > maxLines || preview.length < text.length) {
         preview += '...';
       }
     } else {
