@@ -190,6 +190,7 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
                       keyboardType: TextInputType.multiline,
                       textAlign: TextAlign.start,
                       maxLines: null,
+                      expands: true,
                       maxLength: 20000,
                       controller: _textController,
                       onTapOutside: (event) =>

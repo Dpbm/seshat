@@ -204,6 +204,7 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
                   alignment: Alignment.topLeft,
                   child: TextField(
                       autocorrect: true,
+                      expands: true,
                       controller: _textController,
                       cursorColor: Theme.of(context).colorScheme.secondary,
                       keyboardType: TextInputType.multiline,
