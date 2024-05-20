@@ -38,7 +38,8 @@ class Note {
         preview = previewLines.join('');
       }
 
-      if (textLines.length > maxLines || text.length > maxChar) {
+      if (previewLines.length <= maxLines &&
+          (textLines.length > maxLines || text.length > maxChar)) {
         preview += '...';
       }
     } else {
