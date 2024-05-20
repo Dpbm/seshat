@@ -16,31 +16,38 @@ class Note {
     List<String> textLines = text.split("\n");
     String preview = '';
 
+    List<String> previewLines = [];
+
     if (textLines.isNotEmpty) {
-      int lineCounter = 0;
-
       for (String line in textLines) {
-        if (lineCounter >= maxLines) break;
+        if (previewLines.length >= maxLines) break;
 
-        if (line.length > lengthPerLine) {
-          lineCounter += ((line.length / lengthPerLine).toInt() + 1);
-        } else {
-          lineCounter++;
+        String lineCut = line;
+        while (lineCut.length > lengthPerLine) {
+          previewLines.add(lineCut.substring(0, lengthPerLine.toInt()));
+          lineCut = lineCut.substring(lengthPerLine.toInt(), lineCut.length);
         }
-
-        preview += line;
-        preview += '\n';
+        lineCut += '\n';
+        previewLines.add(lineCut);
       }
 
-      if (preview.length > maxChar) {
-        preview = preview.substring(0, maxChar);
+      if (previewLines.length > maxLines) {
+        preview = previewLines.sublist(0, maxLines).join('');
         preview += '...';
-      } else if (textLines.length > maxLines || preview.length < text.length) {
+      } else {
+        preview = previewLines.join('');
+      }
+
+      if (textLines.length > maxLines || text.length > maxChar) {
         preview += '...';
       }
     } else {
-      preview =
-          text.length >= maxChar ? text.substring(0, maxChar) + '...' : text;
+      if (text.length > maxChar) {
+        preview = text.substring(0, maxChar);
+        preview += '...';
+      } else {
+        preview = text;
+      }
     }
 
     return {
