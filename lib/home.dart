@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:seshat/db/db.dart';
 import 'package:seshat/utils/icons.dart';
 import 'package:seshat/add_note.dart';
 import 'package:seshat/widgets/note.dart';
 import 'package:seshat/search.dart';
 import 'package:seshat/note_page.dart';
 import 'package:seshat/models/note.dart';
+import 'package:seshat/db/db.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.height, required this.width});
@@ -64,15 +64,14 @@ class _HomePage extends State<Home> {
       setState(() {});
     }
 
-    Future<void> addNote() async {
-      await Navigator.push(
+    void goToAddNote() {
+      Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => AddNote(
                     width: width,
                     height: height,
-                  )));
-      setState(() {});
+                  ))).then((value) => {setState(() {})});
     }
 
     Widget cardsList(context, snapshot) {
@@ -109,7 +108,7 @@ class _HomePage extends State<Home> {
       for (final Note noteData in data) {
         Widget card = GestureDetector(
           onTap: () => goToNote(noteData),
-          child: note(noteData, (width-(36*2))/2 - 10),
+          child: note(noteData, (width - (36 * 2)) / 2 - 10),
         );
 
         if (i % 2 == 0) {
@@ -189,7 +188,7 @@ class _HomePage extends State<Home> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: addNote,
+        onPressed: goToAddNote,
         tooltip: 'Create Note',
         //mini: false,
         shape: CircleBorder(

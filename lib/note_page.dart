@@ -27,8 +27,7 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
   bool _deleted = false;
 
   @override
-  Future<void> dispose() async {
-    await _updateNote();
+  void dispose() {
     _textController.dispose();
     _titleController.dispose();
     WidgetsBinding.instance.removeObserver(this);
@@ -100,7 +99,11 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
     }
 
     try {
-      await updateNote(Note(title: title, text: text, id: _id));
+      await updateNote(Note(
+          title: title,
+          text: text,
+          id: _id,
+          createdDate: widget.note.createdDate));
     } catch (error) {
       Fluttertoast.showToast(
           msg: "Failed on update Note",

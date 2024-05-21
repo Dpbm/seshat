@@ -1,12 +1,16 @@
-import 'dart:ffi';
-
 class Note {
   final int? id;
   final String? preview;
   final String title;
   final String text;
+  final int? createdDate;
 
-  const Note({this.id, this.preview, required this.title, required this.text});
+  const Note(
+      {this.id,
+      this.preview,
+      required this.title,
+      required this.text,
+      this.createdDate});
 
   Map<String, Object?> toMap() {
     const int maxChar = 40;
@@ -51,12 +55,15 @@ class Note {
       }
     }
 
+    print('COISANDNDNDNDNDNDN');
+    print(createdDate);
     return {
       'id': id,
       'title': title,
       'preview': preview,
       'text': text,
-      'date': DateTime.now().toString(),
+      'createdDate': createdDate ?? DateTime.now().millisecondsSinceEpoch,
+      'modifiedDate': DateTime.now().millisecondsSinceEpoch,
       'search': title + ' ' + text
     };
   }
