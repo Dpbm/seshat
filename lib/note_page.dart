@@ -94,6 +94,8 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
     String title = _titleController.text;
     String text = _textController.text;
 
+    if (title == widget.note.title && text == widget.note.text) return;
+
     if (title.isEmpty) {
       title = _defaultTitle;
     }
