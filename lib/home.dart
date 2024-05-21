@@ -17,37 +17,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomePage extends State<Home> {
-  final ScrollController _scrollController = ScrollController();
-  int _totalNotes = 0;
-  int _loadNotes = 10;
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _updateTotalNotes();
-    });
-    _scrollController.addListener(_updateNotesLimit);
-  }
-
-  Future<void> _updateTotalNotes() async {
-    int totalNotes = await getTotalNotes();
-    setState(() {
-      _totalNotes = totalNotes;
-    });
-  }
-
-  void _updateNotesLimit() {
-    if (_scrollController.offset ==
-            _scrollController.position.maxScrollExtent &&
-        _loadNotes < _totalNotes) {
-      setState(() {
-        _loadNotes += 10;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final double width = widget.width;
@@ -180,9 +149,7 @@ class _HomePage extends State<Home> {
                 width: width,
                 padding: const EdgeInsets.fromLTRB(36, 16, 36, 16),
                 child: SingleChildScrollView(
-                  controller: _scrollController,
-                  child: FutureBuilder(
-                      future: getNotes(_loadNotes), builder: cardsList),
+                  child: FutureBuilder(future: getNotes(), builder: cardsList),
                 )),
           ],
         ),

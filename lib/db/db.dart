@@ -46,11 +46,11 @@ Future<void> deleteNote(int id) async {
   await db.delete('notes', where: 'id = ?', whereArgs: [id]);
 }
 
-Future<List<Note>> getNotes(int limit) async {
+Future<List<Note>> getNotes() async {
   final db = await getDB();
 
   final List<Map<String, Object?>> notes =
-      await db.query('notes', limit: limit, orderBy: 'modifiedDate DESC');
+      await db.query('notes', orderBy: 'modifiedDate DESC');
 
   return [
     for (final {
@@ -72,12 +72,6 @@ Future<List<Note>> getNotes(int limit) async {
 Future<void> updateNote(Note note) async {
   final db = await getDB();
   db.update('notes', note.toMap(), where: 'id = ?', whereArgs: [note.id]);
-}
-
-Future<int> getTotalNotes() async {
-  final db = await getDB();
-  var rows = await db.rawQuery('SELECT COUNT(id) FROM notes');
-  return Sqflite.firstIntValue(rows) ?? 0;
 }
 
 Future<int> lastInsertedId() async {

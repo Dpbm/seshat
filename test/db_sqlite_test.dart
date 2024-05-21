@@ -24,18 +24,18 @@ void main() async {
   print(await searchNotes('e'));
 
   print('get all....');
-  print(await getNotes(10000));
+  print(await getNotes());
 
   print('delete the first one');
   await deleteNote(1);
 
   print('get all again!');
-  print(await getNotes(1000));
+  print(await getNotes());
 
   final noteUpdates =
       Note(id: 2, title: 'ee', text: 'ccccccccccccccccccccccccc');
 
   print('update note!');
   await updateNote(noteUpdates);
-  print(await getNotes(1000));
+  print(await getNotes());
 }

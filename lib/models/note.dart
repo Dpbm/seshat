@@ -55,8 +55,6 @@ class Note {
       }
     }
 
-    print('COISANDNDNDNDNDNDN');
-    print(createdDate);
     return {
       'id': id,
       'title': title,
