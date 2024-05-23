@@ -191,7 +191,6 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
                           onDoubleTap: _checkTextSelection,
                           child: TextField(
                               autofocus: true,
-                              enableInteractiveSelection: false,
                               cursorColor:
                                   Theme.of(context).colorScheme.secondary,
                               keyboardType: TextInputType.multiline,
