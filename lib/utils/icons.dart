@@ -58,3 +58,12 @@ Widget share() {
     height: 32,
   );
 }
+
+Widget x() {
+  return SvgPicture.asset(
+    buildPath('x'),
+    semanticsLabel: 'remove search',
+    width: 32,
+    height: 32,
+  );
+}
