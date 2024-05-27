@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:seshat/home.dart';
 
 void main() async {
@@ -14,6 +15,8 @@ class Wrapper extends StatelessWidget {
     final double heightMarginTop = MediaQuery.of(context).padding.top;
     final double height = MediaQuery.of(context).size.height - heightMarginTop;
     final double width = MediaQuery.of(context).size.width;
+
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     return MaterialApp(
       title: 'Seshat',
