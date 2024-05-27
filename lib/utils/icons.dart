@@ -49,3 +49,12 @@ Widget trash() {
     height: 32,
   );
 }
+
+Widget share() {
+  return SvgPicture.asset(
+    buildPath('share'),
+    semanticsLabel: 'Share Note',
+    width: 32,
+    height: 32,
+  );
+}

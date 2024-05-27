@@ -3,6 +3,7 @@ import 'package:seshat/db/db.dart';
 import 'package:seshat/models/note.dart';
 import 'package:seshat/utils/icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:share_plus/share_plus.dart';
 
 class NotePage extends StatefulWidget {
   const NotePage(
@@ -118,6 +119,13 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
     }
   }
 
+  Future<void> _shareNote() async {
+    final text = _textController.text;
+    final title = _titleController.text;
+
+    await Share.share(text, subject: title);
+  }
+
   @override
   Widget build(BuildContext context) {
     final double height = widget.height;
@@ -159,13 +167,18 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
                                     onPressed: () => {Navigator.pop(context)},
                                     icon: back(),
                                   ),
-                                  IconButton(
-                                    onPressed: () => {
-                                      _deleteNote().then(
-                                          (result) => Navigator.pop(context))
-                                    },
-                                    icon: trash(),
-                                  )
+                                  Container(
+                                      child: Row(children: [
+                                    IconButton(
+                                        onPressed: _shareNote, icon: share()),
+                                    IconButton(
+                                      onPressed: () => {
+                                        _deleteNote().then(
+                                            (result) => Navigator.pop(context))
+                                      },
+                                      icon: trash(),
+                                    )
+                                  ]))
                                 ]),
                           ),
                           SizedBox(
