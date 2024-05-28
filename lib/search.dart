@@ -27,9 +27,7 @@ class _SearchPage extends State<Search> {
   }
 
   void _clearSearch() {
-    setState(() {
-      _searchController.clear();
-    });
+    _searchController.clear();
   }
 
   @override
@@ -83,13 +81,12 @@ class _SearchPage extends State<Search> {
                                       controller: _searchController,
                                       keyboardType: TextInputType.text,
                                       autofocus: true,
-                                      onChanged: (value) => {},
                                       textAlign: TextAlign.left,
                                       showCursor: true,
                                       autocorrect: false,
                                       enableSuggestions: false,
                                       onTapOutside: (event) =>
-                                          {FocusScope.of(context).unfocus()},
+                                          {_focusSearch.unfocus()},
                                       cursorColor: const Color(0xFFFFFFFF),
                                       style: const TextStyle(
                                           fontSize: 20,
