@@ -77,7 +77,8 @@ class _HomePage extends State<Home> {
       for (final Note noteData in data) {
         Widget card = GestureDetector(
           onTap: () => goToNote(noteData),
-          child: note(noteData, (width - (36 * 2)) / 2 - 10),
+          child:
+              NoteCard(note: noteData, cardWidth: (width - (36 * 2)) / 2 - 10),
         );
 
         if (i % 2 == 0) {
