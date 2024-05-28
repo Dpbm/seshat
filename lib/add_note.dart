@@ -3,6 +3,7 @@ import 'package:seshat/models/note.dart';
 import 'package:seshat/utils/icons.dart';
 import 'package:seshat/db/db.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:seshat/widgets/selectionText.dart';
 
 class AddNote extends StatefulWidget {
   const AddNote({super.key, required this.width, required this.height});
@@ -150,46 +151,51 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
                             width: width,
                             child: Container(
                                 alignment: Alignment.bottomLeft,
-                                child: TextField(
-                                  maxLength: 20,
-                                  keyboardType: TextInputType.text,
-                                  controller: _titleController,
-                                  onTapOutside: (event) =>
-                                      {FocusScope.of(context).unfocus()},
-                                  cursorColor:
-                                      Theme.of(context).colorScheme.secondary,
-                                  textAlign: TextAlign.center,
-                                  showCursor: true,
-                                  style: const TextStyle(
-                                      fontSize: 32,
-                                      fontFamily: 'Roboto',
-                                      fontWeight: FontWeight.bold),
-                                  decoration: InputDecoration(
-                                      hintText: _defaultTitle,
-                                      contentPadding: const EdgeInsets.all(0),
-                                      hintMaxLines: 1,
-                                      border: InputBorder.none,
-                                      counterText: '',
-                                      hintStyle: const TextStyle(
+                                child: selectionText(
+                                    TextField(
+                                      maxLength: 20,
+                                      keyboardType: TextInputType.text,
+                                      controller: _titleController,
+                                      onTapOutside: (event) =>
+                                          {FocusScope.of(context).unfocus()},
+                                      cursorColor: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
+                                      textAlign: TextAlign.center,
+                                      showCursor: true,
+                                      style: const TextStyle(
                                           fontSize: 32,
                                           fontFamily: 'Roboto',
-                                          fontWeight: FontWeight.bold)),
-                                )),
+                                          fontWeight: FontWeight.bold),
+                                      decoration: InputDecoration(
+                                          hintText: _defaultTitle,
+                                          contentPadding:
+                                              const EdgeInsets.all(0),
+                                          hintMaxLines: 1,
+                                          border: InputBorder.none,
+                                          counterText: '',
+                                          hintStyle: const TextStyle(
+                                              fontSize: 32,
+                                              fontFamily: 'Roboto',
+                                              fontWeight: FontWeight.bold)),
+                                    ),
+                                    context)),
                           )
                         ],
                       ),
                     )),
                 Container(
-                    color: Theme.of(context).colorScheme.primary,
-                    height: bodySize -
-                        (keyboardHeight != 0 ? keyboardHeight - 10 : 0),
-                    width: width,
-                    padding: const EdgeInsets.fromLTRB(36, 16, 36, 16),
-                    child: Container(
-                        alignment: Alignment.topLeft,
-                        child: GestureDetector(
-                          onDoubleTap: _checkTextSelection,
-                          child: TextField(
+                  color: Theme.of(context).colorScheme.primary,
+                  height: bodySize -
+                      (keyboardHeight != 0 ? keyboardHeight - 10 : 0),
+                  width: width,
+                  padding: const EdgeInsets.fromLTRB(36, 16, 36, 16),
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    child: GestureDetector(
+                      onDoubleTap: _checkTextSelection,
+                      child: selectionText(
+                          TextField(
                               autofocus: true,
                               cursorColor:
                                   Theme.of(context).colorScheme.secondary,
@@ -214,7 +220,10 @@ class _AddNotePage extends State<AddNote> with WidgetsBindingObserver {
                                       fontSize: 24,
                                       fontFamily: 'Roboto',
                                       fontWeight: FontWeight.bold))),
-                        ))),
+                          context),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

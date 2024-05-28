@@ -4,6 +4,7 @@ import 'package:seshat/models/note.dart';
 import 'package:seshat/utils/icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:seshat/widgets/selectionText.dart';
 
 class NotePage extends StatefulWidget {
   const NotePage(
@@ -184,32 +185,35 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
                           SizedBox(
                             width: width,
                             child: Container(
-                                alignment: Alignment.bottomLeft,
-                                child: TextField(
-                                  maxLength: 20,
-                                  controller: _titleController,
-                                  keyboardType: TextInputType.text,
-                                  onTapOutside: (event) =>
-                                      {FocusScope.of(context).unfocus()},
-                                  cursorColor:
-                                      Theme.of(context).colorScheme.secondary,
-                                  textAlign: TextAlign.center,
-                                  showCursor: true,
-                                  style: const TextStyle(
-                                      fontSize: 32,
-                                      fontFamily: 'Roboto',
-                                      fontWeight: FontWeight.bold),
-                                  decoration: InputDecoration(
-                                      hintText: _defaultTitle,
-                                      contentPadding: const EdgeInsets.all(0),
-                                      hintMaxLines: 1,
-                                      border: InputBorder.none,
-                                      counterText: '',
-                                      hintStyle: const TextStyle(
-                                          fontSize: 32,
-                                          fontFamily: 'Roboto',
-                                          fontWeight: FontWeight.bold)),
-                                )),
+                              alignment: Alignment.bottomLeft,
+                              child: selectionText(
+                                  TextField(
+                                    maxLength: 20,
+                                    controller: _titleController,
+                                    keyboardType: TextInputType.text,
+                                    onTapOutside: (event) =>
+                                        {FocusScope.of(context).unfocus()},
+                                    cursorColor:
+                                        Theme.of(context).colorScheme.secondary,
+                                    textAlign: TextAlign.center,
+                                    showCursor: true,
+                                    style: const TextStyle(
+                                        fontSize: 32,
+                                        fontFamily: 'Roboto',
+                                        fontWeight: FontWeight.bold),
+                                    decoration: InputDecoration(
+                                        hintText: _defaultTitle,
+                                        contentPadding: const EdgeInsets.all(0),
+                                        hintMaxLines: 1,
+                                        border: InputBorder.none,
+                                        counterText: '',
+                                        hintStyle: const TextStyle(
+                                            fontSize: 32,
+                                            fontFamily: 'Roboto',
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                  context),
+                            ),
                           )
                         ],
                       ),
@@ -221,31 +225,33 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
                     width: width,
                     padding: const EdgeInsets.fromLTRB(36, 16, 36, 16),
                     child: Container(
-                      alignment: Alignment.topLeft,
-                      child: TextField(
-                          expands: true,
-                          controller: _textController,
-                          cursorColor: Theme.of(context).colorScheme.secondary,
-                          keyboardType: TextInputType.multiline,
-                          textAlign: TextAlign.start,
-                          maxLines: null,
-                          maxLength: 20000,
-                          onTapOutside: (event) =>
-                              {FocusScope.of(context).unfocus()},
-                          showCursor: true,
-                          style: const TextStyle(
-                              fontSize: 24, fontFamily: 'Roboto'),
-                          decoration: const InputDecoration(
-                              hintText: "Type Something...",
-                              contentPadding: EdgeInsets.all(0),
-                              hintMaxLines: 1,
-                              border: InputBorder.none,
-                              counterText: '',
-                              hintStyle: TextStyle(
-                                  fontSize: 24,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.bold))),
-                    )),
+                        alignment: Alignment.topLeft,
+                        child: selectionText(
+                            TextField(
+                                expands: true,
+                                controller: _textController,
+                                cursorColor:
+                                    Theme.of(context).colorScheme.secondary,
+                                keyboardType: TextInputType.multiline,
+                                textAlign: TextAlign.start,
+                                maxLines: null,
+                                maxLength: 20000,
+                                onTapOutside: (event) =>
+                                    {FocusScope.of(context).unfocus()},
+                                showCursor: true,
+                                style: const TextStyle(
+                                    fontSize: 24, fontFamily: 'Roboto'),
+                                decoration: const InputDecoration(
+                                    hintText: "Type Something...",
+                                    contentPadding: EdgeInsets.all(0),
+                                    hintMaxLines: 1,
+                                    border: InputBorder.none,
+                                    counterText: '',
+                                    hintStyle: TextStyle(
+                                        fontSize: 24,
+                                        fontFamily: 'Roboto',
+                                        fontWeight: FontWeight.bold))),
+                            context))),
               ],
             ),
           ),
