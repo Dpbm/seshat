@@ -19,9 +19,9 @@ void main() async {
   await insertNote(testInsert2);
 
   print('search by "a"');
-  print(await searchNotes('a'));
+  print(await searchNotes('a', 'desc'));
   print('search by title "e"');
-  print(await searchNotes('e'));
+  print(await searchNotes('e', 'desc'));
 
   print('get all....');
   print(await getNotes());
