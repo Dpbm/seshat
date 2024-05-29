@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:seshat/utils/icons.dart';
+import 'package:seshat/widgets/note.dart';
+import 'package:seshat/models/note.dart';
+import 'package:seshat/db/db.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key, required this.width, required this.height});
@@ -14,20 +17,40 @@ class _SearchPage extends State<Search> {
   final FocusNode _focusSearch = FocusNode();
   final TextEditingController _searchController = TextEditingController();
 
+  List<Note> _notes = [];
+  bool _getNotesError = false;
+
   @override
   void initState() {
     super.initState();
+    _searchController.addListener(_searchNotes);
   }
 
   @override
   void dispose() {
     super.dispose();
     _focusSearch.dispose();
+    _searchController.removeListener(_searchNotes);
     _searchController.dispose();
   }
 
   void _clearSearch() {
     _searchController.clear();
+  }
+
+  Future<void> _searchNotes() async {
+    final String term = _searchController.text;
+    try {
+      List<Note> notes = await searchNotes(term);
+      setState(() {
+        _notes = notes;
+        _getNotesError = false;
+      });
+    } catch (error) {
+      setState(() {
+        _getNotesError = true;
+      });
+    }
   }
 
   @override
@@ -36,6 +59,59 @@ class _SearchPage extends State<Search> {
     final double width = widget.width;
     final double height = widget.height;
     final double bodySize = height - topBarSize;
+
+    Widget cardsList() {
+      if (_getNotesError) {
+        return Container(
+            height: bodySize,
+            alignment: Alignment.center,
+            child: Text("Failed on get your notes!!!",
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'Roboto',
+                    color: Theme.of(context).colorScheme.error)));
+      }
+
+      if (_notes.isEmpty) {
+        return Container(
+            height: bodySize,
+            alignment: Alignment.center,
+            child: Text("Haven't found any notes!!!",
+                style: TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'Roboto',
+                    color: Theme.of(context).colorScheme.shadow)));
+      }
+
+      List<Widget> childrenLeftColumn = [];
+      List<Widget> childrenRightColumn = [];
+      int i = 0;
+      for (final Note noteData in _notes) {
+        Widget card = GestureDetector(
+          //onTap: () => goToNote(noteData),
+          child:
+              NoteCard(note: noteData, cardWidth: (width - (36 * 2)) / 2 - 10),
+        );
+
+        if (i % 2 == 0) {
+          childrenLeftColumn.add(card);
+        } else {
+          childrenRightColumn.add(card);
+        }
+        i++;
+      }
+
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            children: childrenLeftColumn,
+          ),
+          Column(children: childrenRightColumn)
+        ],
+      );
+    }
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -119,7 +195,16 @@ class _SearchPage extends State<Search> {
                       ],
                     ),
                   ),
-                )
+                ),
+                Container(
+                  color: Theme.of(context).colorScheme.primary,
+                  height: bodySize,
+                  width: width,
+                  padding: const EdgeInsets.fromLTRB(36, 16, 36, 16),
+                  child: SingleChildScrollView(
+                    child: cardsList(),
+                  ),
+                ),
               ],
             )));
   }
