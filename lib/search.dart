@@ -156,7 +156,7 @@ class _SearchPage extends State<Search> {
                                 alignment: Alignment.bottomLeft,
                                 child: IconButton(
                                   onPressed: () => {Navigator.pop(context)},
-                                  icon: back(),
+                                  icon: BackIcon,
                                 )),
                             Container(
                               alignment: Alignment.bottomLeft,
@@ -169,7 +169,7 @@ class _SearchPage extends State<Search> {
                               child: Row(
                                 children: [
                                   IconButton(
-                                      onPressed: () {}, icon: searchPrefix()),
+                                      onPressed: () {}, icon: SearchPrefixIcon),
                                   Flexible(
                                       fit: FlexFit.tight,
                                       child: TextField(
@@ -210,7 +210,7 @@ class _SearchPage extends State<Search> {
                                                       135, 255, 255, 255))))),
                                   _focusSearch.hasFocus
                                       ? IconButton(
-                                          onPressed: _clearSearch, icon: x())
+                                          onPressed: _clearSearch, icon: XIcon)
                                       : const SizedBox.shrink()
                                 ],
                               ),
@@ -220,7 +220,7 @@ class _SearchPage extends State<Search> {
                                 alignment: Alignment.centerRight,
                                 child: DropdownButton(
                                   value: _order,
-                                  icon: filter(),
+                                  icon: FilterIcon,
                                   style: TextStyle(
                                     color:
                                         Theme.of(context).colorScheme.secondary,

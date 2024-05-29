@@ -166,19 +166,18 @@ class _UpdateNotePage extends State<NotePage> with WidgetsBindingObserver {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   IconButton(
-                                    onPressed: () => {Navigator.pop(context)},
-                                    icon: back(),
-                                  ),
+                                      onPressed: () => {Navigator.pop(context)},
+                                      icon: BackIcon),
                                   Container(
                                       child: Row(children: [
                                     IconButton(
-                                        onPressed: _shareNote, icon: share()),
+                                        onPressed: _shareNote, icon: ShareIcon),
                                     IconButton(
                                       onPressed: () => {
                                         _deleteNote().then(
                                             (result) => Navigator.pop(context))
                                       },
-                                      icon: trash(),
+                                      icon: TrashIcon,
                                     )
                                   ]))
                                 ]),

@@ -140,7 +140,7 @@ class _HomePage extends State<Home> {
                                               )),
                                     )
                                   },
-                              icon: search())
+                              icon: SearchIcon)
                         ],
                       ),
                     ))),
@@ -156,16 +156,15 @@ class _HomePage extends State<Home> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: goToAddNote,
-        tooltip: 'Create Note',
-        //mini: false,
-        shape: CircleBorder(
-          side: BorderSide(
-              width: 10, color: Theme.of(context).colorScheme.secondary),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        child: plus(),
-      ),
+          onPressed: goToAddNote,
+          tooltip: 'Create Note',
+          //mini: false,
+          shape: CircleBorder(
+            side: BorderSide(
+                width: 10, color: Theme.of(context).colorScheme.secondary),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          child: PlusIcon),
     );
   }
 }

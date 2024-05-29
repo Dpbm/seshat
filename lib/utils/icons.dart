@@ -1,78 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-String buildPath(String icon) {
-  return 'assets/icons/' + icon + '.svg';
+class FeatherIcon extends StatelessWidget {
+  final String name;
+  final String label;
+  final double height;
+  final double width;
+
+  const FeatherIcon(
+      {super.key,
+      required this.name,
+      required this.label,
+      required this.height,
+      required this.width});
+
+  String buildPath() {
+    return 'assets/icons/' + name + '.svg';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SvgPicture.asset(
+      buildPath(),
+      semanticsLabel: label,
+      width: width,
+      height: height,
+    );
+  }
 }
 
-Widget search() {
-  return SvgPicture.asset(
-    buildPath('search'),
-    semanticsLabel: 'Search',
-    width: 32,
-    height: 32,
-  );
-}
-
-Widget searchPrefix() {
-  return SvgPicture.asset(
-    buildPath('search_prefix'),
-    semanticsLabel: 'Search',
-    width: 32,
-    height: 32,
-  );
-}
-
-Widget plus() {
-  return SvgPicture.asset(
-    buildPath('plus'),
-    semanticsLabel: 'Add',
-    width: 32,
-    height: 32,
-  );
-}
-
-Widget back() {
-  return SvgPicture.asset(
-    buildPath('back'),
-    semanticsLabel: 'Back',
-    width: 32,
-    height: 32,
-  );
-}
-
-Widget trash() {
-  return SvgPicture.asset(
-    buildPath('trash'),
-    semanticsLabel: 'Delete',
-    width: 32,
-    height: 32,
-  );
-}
-
-Widget share() {
-  return SvgPicture.asset(
-    buildPath('share'),
-    semanticsLabel: 'Share Note',
-    width: 32,
-    height: 32,
-  );
-}
-
-Widget x() {
-  return SvgPicture.asset(
-    buildPath('x'),
-    semanticsLabel: 'Remove Search',
-    width: 32,
-    height: 32,
-  );
-}
-
-Widget filter() {
-  return SvgPicture.asset(
-    buildPath('filter'),
-    semanticsLabel: 'Filter Search',
-    width: 24,
-    height: 24,
-  );
-}
+const SearchIcon =
+    FeatherIcon(name: 'search', label: 'search', height: 32, width: 32);
+const SearchPrefixIcon =
+    FeatherIcon(name: 'search_prefix', label: 'Search', height: 32, width: 32);
+const PlusIcon = FeatherIcon(name: 'plus', label: 'Add', height: 32, width: 32);
+const BackIcon =
+    FeatherIcon(name: 'back', label: 'Go Back', height: 32, width: 32);
+const TrashIcon =
+    FeatherIcon(name: 'trash', label: 'Delete', height: 32, width: 32);
+const ShareIcon =
+    FeatherIcon(name: 'share', label: 'Share Note', height: 32, width: 32);
+const XIcon =
+    FeatherIcon(name: 'x', label: 'Clear Search', height: 32, width: 32);
+const FilterIcon =
+    FeatherIcon(name: 'filter', label: 'Filter Search', height: 24, width: 24);
