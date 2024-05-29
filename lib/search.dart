@@ -19,6 +19,7 @@ class _SearchPage extends State<Search> {
   final TextEditingController _searchController = TextEditingController();
 
   List<Note> _notes = [];
+  String _order = 'desc';
   bool _getNotesError = false;
 
   @override
@@ -42,7 +43,7 @@ class _SearchPage extends State<Search> {
   Future<void> _searchNotes() async {
     final String term = _searchController.text;
     try {
-      List<Note> notes = await searchNotes(term);
+      List<Note> notes = await searchNotes(term, _order);
       setState(() {
         _notes = notes;
         _getNotesError = false;
@@ -56,7 +57,7 @@ class _SearchPage extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
-    const double topBarSize = 120;
+    const double topBarSize = 120 + (32 /*icons size*/) + 12;
     final double width = widget.width;
     final double height = widget.height;
     final double bodySize = height - topBarSize;
@@ -214,6 +215,34 @@ class _SearchPage extends State<Search> {
                                 ],
                               ),
                             ),
+                            Container(
+                                width: width,
+                                alignment: Alignment.centerRight,
+                                child: DropdownButton(
+                                  value: _order,
+                                  icon: filter(),
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
+                                  ),
+                                  underline: Container(
+                                    height: 0,
+                                  ),
+                                  items: const [
+                                    DropdownMenuItem<String>(
+                                        value: 'asc',
+                                        child: Text('First Modified')),
+                                    DropdownMenuItem<String>(
+                                        value: 'desc',
+                                        child: Text('Last Modified')),
+                                  ],
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _order = value ?? _order;
+                                    });
+                                    _searchNotes();
+                                  },
+                                ))
                           ],
                         ),
                       ),

@@ -18,11 +18,24 @@ Future<void> insertNote(Note note) async {
   db.insert('notes', note.toMap(), conflictAlgorithm: ConflictAlgorithm.fail);
 }
 
-Future<List<Note>> searchNotes(String term) async {
+Future<List<Note>> searchNotes(String term, String order) async {
   final db = await getDB();
 
-  final List<Map<String, Object?>> notes =
-      await db.query('notes', where: "search LIKE ?", whereArgs: ['%$term%']);
+  String orderBy = 'modifiedDate DESC';
+
+  switch (order) {
+    case 'desc':
+      orderBy = 'modifiedDate DESC';
+      break;
+    case 'asc':
+      orderBy = 'modifiedDate ASC';
+      break;
+    default:
+      break;
+  }
+
+  final List<Map<String, Object?>> notes = await db.query('notes',
+      where: "search LIKE ?", whereArgs: ['%$term%'], orderBy: orderBy);
 
   return [
     for (final {

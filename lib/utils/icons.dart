@@ -62,8 +62,17 @@ Widget share() {
 Widget x() {
   return SvgPicture.asset(
     buildPath('x'),
-    semanticsLabel: 'remove search',
+    semanticsLabel: 'Remove Search',
     width: 32,
     height: 32,
+  );
+}
+
+Widget filter() {
+  return SvgPicture.asset(
+    buildPath('filter'),
+    semanticsLabel: 'Filter Search',
+    width: 24,
+    height: 24,
   );
 }
