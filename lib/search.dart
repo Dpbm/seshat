@@ -3,6 +3,7 @@ import 'package:seshat/utils/icons.dart';
 import 'package:seshat/widgets/note.dart';
 import 'package:seshat/models/note.dart';
 import 'package:seshat/db/db.dart';
+import 'package:seshat/note_page.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key, required this.width, required this.height});
@@ -60,6 +61,16 @@ class _SearchPage extends State<Search> {
     final double height = widget.height;
     final double bodySize = height - topBarSize;
 
+    Future<void> goToNote(Note noteData) async {
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  NotePage(width: width, height: height, note: noteData)));
+      setState(() {});
+      await _searchNotes();
+    }
+
     Widget cardsList() {
       if (_getNotesError) {
         return Container(
@@ -88,7 +99,7 @@ class _SearchPage extends State<Search> {
       int i = 0;
       for (final Note noteData in _notes) {
         Widget card = GestureDetector(
-          //onTap: () => goToNote(noteData),
+          onTap: () => goToNote(noteData),
           child:
               NoteCard(note: noteData, cardWidth: (width - (36 * 2)) / 2 - 10),
         );
@@ -113,99 +124,110 @@ class _SearchPage extends State<Search> {
       );
     }
 
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(0),
-            child: AppBar(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              elevation: 0,
-            )),
-        body: SizedBox(
-            width: width,
-            height: height,
-            child: Column(
-              children: [
-                Container(
-                  height: topBarSize,
-                  color: Theme.of(context).colorScheme.primary,
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(26, 10, 26, 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                            alignment: Alignment.bottomLeft,
-                            child: IconButton(
-                              onPressed: () => {Navigator.pop(context)},
-                              icon: back(),
-                            )),
-                        Container(
-                          alignment: Alignment.bottomLeft,
-                          decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondary,
-                              borderRadius: const BorderRadiusDirectional.all(
-                                  Radius.circular(10))),
-                          child: Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () {}, icon: searchPrefix()),
-                              Flexible(
-                                  fit: FlexFit.tight,
-                                  child: TextField(
-                                      focusNode: _focusSearch,
-                                      controller: _searchController,
-                                      keyboardType: TextInputType.text,
-                                      autofocus: true,
-                                      textAlign: TextAlign.left,
-                                      showCursor: true,
-                                      autocorrect: false,
-                                      enableSuggestions: false,
-                                      onTapOutside: (event) =>
-                                          {_focusSearch.unfocus()},
-                                      cursorColor: const Color(0xFFFFFFFF),
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          fontFamily: 'Roboto',
-                                          color: Color(0xFFFFFFFF),
-                                          decoration: TextDecoration.none,
-                                          decorationThickness: 0),
-                                      decoration: InputDecoration(
-                                          hintText: 'Type your search...',
-                                          contentPadding: EdgeInsets.fromLTRB(
-                                              0,
-                                              0,
-                                              _focusSearch.hasFocus ? 0 : 10,
-                                              0),
-                                          hintMaxLines: 1,
-                                          border: InputBorder.none,
-                                          counterText: '',
-                                          hintStyle: const TextStyle(
+    return Theme(
+        data: ThemeData(
+            textSelectionTheme: TextSelectionThemeData(
+                cursorColor: Theme.of(context).colorScheme.shadow,
+                selectionColor: Theme.of(context).colorScheme.shadow,
+                selectionHandleColor: const Color(0xFFFFFFFF))),
+        child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(0),
+                child: AppBar(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  elevation: 0,
+                )),
+            body: SizedBox(
+                width: width,
+                height: height,
+                child: Column(
+                  children: [
+                    Container(
+                      height: topBarSize,
+                      color: Theme.of(context).colorScheme.primary,
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(26, 10, 26, 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                                alignment: Alignment.bottomLeft,
+                                child: IconButton(
+                                  onPressed: () => {Navigator.pop(context)},
+                                  icon: back(),
+                                )),
+                            Container(
+                              alignment: Alignment.bottomLeft,
+                              decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  borderRadius:
+                                      const BorderRadiusDirectional.all(
+                                          Radius.circular(10))),
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {}, icon: searchPrefix()),
+                                  Flexible(
+                                      fit: FlexFit.tight,
+                                      child: TextField(
+                                          focusNode: _focusSearch,
+                                          controller: _searchController,
+                                          keyboardType: TextInputType.text,
+                                          autofocus: true,
+                                          textAlign: TextAlign.left,
+                                          showCursor: true,
+                                          autocorrect: false,
+                                          enableSuggestions: false,
+                                          onTapOutside: (event) =>
+                                              {_focusSearch.unfocus()},
+                                          cursorColor: const Color(0xFFFFFFFF),
+                                          style: const TextStyle(
                                               fontSize: 20,
                                               fontFamily: 'Roboto',
-                                              color: Color.fromARGB(
-                                                  135, 255, 255, 255))))),
-                              _focusSearch.hasFocus
-                                  ? IconButton(
-                                      onPressed: _clearSearch, icon: x())
-                                  : const SizedBox.shrink()
-                            ],
-                          ),
+                                              color: Color(0xFFFFFFFF),
+                                              decoration: TextDecoration.none,
+                                              decorationThickness: 0),
+                                          decoration: InputDecoration(
+                                              hintText: 'Type your search...',
+                                              contentPadding:
+                                                  EdgeInsets.fromLTRB(
+                                                      0,
+                                                      0,
+                                                      _focusSearch.hasFocus
+                                                          ? 0
+                                                          : 10,
+                                                      0),
+                                              hintMaxLines: 1,
+                                              border: InputBorder.none,
+                                              counterText: '',
+                                              hintStyle: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontFamily: 'Roboto',
+                                                  color: Color.fromARGB(
+                                                      135, 255, 255, 255))))),
+                                  _focusSearch.hasFocus
+                                      ? IconButton(
+                                          onPressed: _clearSearch, icon: x())
+                                      : const SizedBox.shrink()
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: Theme.of(context).colorScheme.primary,
-                  height: bodySize,
-                  width: width,
-                  padding: const EdgeInsets.fromLTRB(36, 16, 36, 16),
-                  child: SingleChildScrollView(
-                    child: cardsList(),
-                  ),
-                ),
-              ],
-            )));
+                    Container(
+                      color: Theme.of(context).colorScheme.primary,
+                      height: bodySize,
+                      width: width,
+                      padding: const EdgeInsets.fromLTRB(36, 16, 36, 16),
+                      child: SingleChildScrollView(
+                        child: cardsList(),
+                      ),
+                    ),
+                  ],
+                ))));
   }
 }
