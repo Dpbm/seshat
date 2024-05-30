@@ -73,11 +73,13 @@ class _SearchPage extends State<Search> {
     }
 
     Widget cardsList() {
+      final double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+      final bool usingKeyboard = keyboardHeight > 0;
+
       if (_getNotesError) {
         return Container(
             height: bodySize,
-            alignment:
-                _focusSearch.hasFocus ? Alignment.topCenter : Alignment.center,
+            alignment: usingKeyboard ? Alignment.topCenter : Alignment.center,
             child: Text("Failed on get your notes!!!",
                 style: TextStyle(
                     fontSize: 24,
@@ -88,8 +90,7 @@ class _SearchPage extends State<Search> {
       if (_notes.isEmpty) {
         return Container(
             height: bodySize,
-            alignment:
-                _focusSearch.hasFocus ? Alignment.topCenter : Alignment.center,
+            alignment: usingKeyboard ? Alignment.topCenter : Alignment.center,
             child: Text("No Notes Were Found!!!",
                 style: TextStyle(
                     fontSize: 24,
