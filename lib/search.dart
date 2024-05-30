@@ -76,7 +76,8 @@ class _SearchPage extends State<Search> {
       if (_getNotesError) {
         return Container(
             height: bodySize,
-            alignment: Alignment.center,
+            alignment:
+                _focusSearch.hasFocus ? Alignment.topCenter : Alignment.center,
             child: Text("Failed on get your notes!!!",
                 style: TextStyle(
                     fontSize: 24,
@@ -87,8 +88,9 @@ class _SearchPage extends State<Search> {
       if (_notes.isEmpty) {
         return Container(
             height: bodySize,
-            alignment: Alignment.center,
-            child: Text("Haven't found any notes!!!",
+            alignment:
+                _focusSearch.hasFocus ? Alignment.topCenter : Alignment.center,
+            child: Text("No Notes Were Found!!!",
                 style: TextStyle(
                     fontSize: 24,
                     fontFamily: 'Roboto',
