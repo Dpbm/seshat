@@ -33,6 +33,14 @@ class _HomePage extends State<Home> {
       setState(() {});
     }
 
+    Future<void> goToSearch() async {
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Search(width: width, height: height)));
+      setState(() {});
+    }
+
     void goToAddNote() {
       Navigator.push(
           context,
@@ -129,18 +137,7 @@ class _HomePage extends State<Home> {
                             style:
                                 TextStyle(fontSize: 32, fontFamily: 'Roboto'),
                           ),
-                          IconButton(
-                              onPressed: () => {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Search(
-                                                width: width,
-                                                height: height,
-                                              )),
-                                    )
-                                  },
-                              icon: SearchIcon)
+                          IconButton(onPressed: goToSearch, icon: SearchIcon)
                         ],
                       ),
                     ))),
