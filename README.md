@@ -1,16 +1,27 @@
-# seshat
+<img alt="logo" src="./assets/images/splash_logo.png" style="width: 400px;" />
 
-A new Flutter project.
+A simple notes app made using Flutter.
 
-## Getting Started
+This project was made for our mobile systems class at [UNIVEM](https://www.univem.edu.br/). The idea was to create something simple in a couple of weeks to practice all our knowledge on mobile development.
 
-This project is a starting point for a Flutter application.
+The members of the group are:\
+    - [Alexandre](https://github.com/Dpbm)(me)\
+    - [Gabriela](https://github.com/Gsr13)\
+    - Hugo
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<p float="left">
+<img alt="screenshot home screen" src="./assets/screenshots/screenshot_1.png" style="width: 300px;" />
+<img alt="screenshot note" src="./assets/screenshots/screenshot_2.png" style="width: 300px;" />
+<img alt="screenshot search" src="./assets/screenshots/screenshot_3.png" style="width: 300px;" />
+</p>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Installing
+
+For android, you can download the apk directly [here](https://github.com/Dpbm/seshat/releases/).
+
+However, if you use IOS or want to build an APK by your own, you must take a look at:
+
+- [Android Build](https://docs.flutter.dev/deployment/android)
+- [IOS Build](https://docs.flutter.dev/deployment/ios)
